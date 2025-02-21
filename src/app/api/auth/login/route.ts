@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     );
   }
 
-  // Usamos Supabase Auth para hacer login
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -21,7 +20,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 401 });
   }
 
-  // Si el login es exitoso, retornamos el JWT de la sesión
   const { user, session } = data;
 
   return NextResponse.json(

@@ -14,9 +14,7 @@ export default function LoginPage() {
       className="w-full h-full flex flex-col items-center justify-center gap-2"
     >
       <h1 className="text-deepBlue text-xl font-bold">Inicio de sesión</h1>
-      <h1 className="text-deepBlue text-xl font-bold">
-        {process.env.NEXT_PUBLIC_BASE_URL}
-      </h1>
+
       <CustomInput
         {...register("email")}
         placeholder="Correo Electrónico*"
