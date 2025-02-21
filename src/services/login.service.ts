@@ -6,9 +6,6 @@ const loginUser = async (
   email: string,
   password: string
 ): Promise<ILoginResponse> => {
-  if (!api) {
-    throw new Error("API is not available");
-  }
   const { data } = await api.post("/auth/login", { email, password });
   return data;
 };
