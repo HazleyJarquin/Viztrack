@@ -1,25 +1,48 @@
+"use client";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
-import { MailIcon, LockIcon } from "lucide-react";
+import { useLoginForm } from "@/hooks/useLoginForm";
+import { MailIcon, LockIcon, Loader2Icon } from "lucide-react";
+
 export default function LoginPage() {
+  const { register, handleSubmit, onSubmit, errors, isDirty, isPending } =
+    useLoginForm();
+
   return (
-    <form className="w-full h-full flex flex-col items-center justify-center gap-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full h-full flex flex-col items-center justify-center gap-2"
+    >
       <h1 className="text-deepBlue text-xl font-bold">Inicio de sesión</h1>
       <CustomInput
-        placeholder="Correo Electrónico"
+        {...register("email")}
+        placeholder="Correo Electrónico*"
         type="email"
         icon={MailIcon}
         iconPosition="left"
+        error={!!errors.email}
+        errorMessage={errors.email?.message}
       />
       <CustomInput
-        placeholder="Contraseña"
+        {...register("password")}
+        placeholder="Contraseña*"
         type="password"
         icon={LockIcon}
         iconPosition="left"
+        error={!!errors.password}
+        errorMessage={errors.password?.message}
       />
 
-      <Button type="submit" className="w-full bg-deepBlue text-white">
-        Iniciar Sesión
+      <Button
+        disabled={!isDirty || isPending}
+        type="submit"
+        className="w-full bg-deepBlue text-white"
+      >
+        {isPending ? (
+          <Loader2Icon className="text-white animate-spin" />
+        ) : (
+          "Iniciar Sesión"
+        )}
       </Button>
     </form>
   );
