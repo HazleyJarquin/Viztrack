@@ -4,9 +4,20 @@ import { useSideBar } from "./hooks/useSidebar";
 import { LinkItems } from "./components/LinkItems";
 import { LogOutIcon } from "lucide-react";
 import { deleteCookie } from "cookies-next";
+import { signOut, useSession } from "next-auth/react";
 
 export const Sidebar = () => {
   const { sideBarLinks } = useSideBar();
+
+  const { data: session } = useSession();
+
+  const handleLogout = () => {
+    if (session?.user) {
+      signOut({ callbackUrl: "/auth/login" });
+    } else {
+      deleteCookie("authToken");
+    }
+  };
   return (
     <div className="w-full h-screen bg-softGray flex flex-col gap-5">
       <div className="w-full py-4 border-b border-gray-300 flex items-center justify-center gap-2">
@@ -36,9 +47,7 @@ export const Sidebar = () => {
             name: "Cerrar Sesión",
             path: "/auth/login",
             icon: <LogOutIcon />,
-            action: () => {
-              deleteCookie("authToken");
-            },
+            action: handleLogout,
           }}
         />
       </div>

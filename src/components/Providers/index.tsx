@@ -1,5 +1,6 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 
 interface Props {
@@ -11,7 +12,7 @@ export const Providers = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster richColors />
-      {children}
+      <SessionProvider>{children}</SessionProvider>
     </QueryClientProvider>
   );
 };
