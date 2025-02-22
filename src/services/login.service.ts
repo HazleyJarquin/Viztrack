@@ -6,8 +6,7 @@ const loginUser = async (
   email: string,
   password: string
 ): Promise<ILoginResponse> => {
-  console.log("api", api.getUri);
-  const { data } = await api.post("/api/auth/login", { email, password });
+  const { data } = await api.post("/auth/login", { email, password });
   return data;
 };
 
