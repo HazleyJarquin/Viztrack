@@ -11,8 +11,9 @@ export default {
     extend: {
       colors: {
         softGray: "#F1F2F7",
-        paleBlue: "#F6F6FB",
+        paleBlue: "#F5F6FB",
         deepBlue: "#5A67BA",
+        lavenderLight: "#e4e6f4",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
