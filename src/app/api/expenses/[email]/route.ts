@@ -2,10 +2,10 @@
 import { supabase } from "@/supabase/supabaseClient";
 
 export const GET = async (
-  req: Request,
-  { params }: { params: { email: string } }
+  _req: Request,
+  { params }: { params: Promise<{ email: string }> }
 ) => {
-  const { email } = params;
+  const email = (await params).email;
 
   try {
     const { data, error } = await supabase
