@@ -1,5 +1,6 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
 
 interface Props {
   children: React.ReactNode;
@@ -8,6 +9,9 @@ interface Props {
 const queryClient = new QueryClient();
 export const Providers = ({ children }: Props) => {
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <Toaster richColors />
+      {children}
+    </QueryClientProvider>
   );
 };

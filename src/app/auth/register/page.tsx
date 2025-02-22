@@ -1,32 +1,57 @@
+"use client";
 import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
-import { LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { useRegisterUserForm } from "@/hooks/useRegisterUserForm";
+import { ArrowLeftIcon, Loader2Icon, LockIcon, MailIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function RegisterPage() {
+  const { register, handleSubmit, onSubmit, errors, isDirty, isPending } =
+    useRegisterUserForm();
   return (
-    <form className="w-full h-full flex flex-col items-center justify-center gap-2">
-      <h1 className="text-deepBlue text-xl font-bold">Registro</h1>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full h-full flex flex-col items-center justify-center gap-2"
+    >
+      <div className="w-full flex items-center justify-between">
+        <Link href="/auth/login">
+          <ArrowLeftIcon className="hover:text-muted-foreground" />
+        </Link>
+        <h1 className="text-deepBlue text-xl font-bold flex-1 text-center">
+          Registrarse
+        </h1>
+        <div className="w-6"></div>
+      </div>
+
       <CustomInput
-        placeholder="Nombre"
-        type="email"
-        icon={UserIcon}
-        iconPosition="left"
-      />
-      <CustomInput
-        placeholder="Correo Electrónico"
+        {...register("email")}
+        placeholder="Correo Electrónico*"
         type="email"
         icon={MailIcon}
         iconPosition="left"
+        error={!!errors.email}
+        errorMessage={errors.email?.message}
       />
       <CustomInput
-        placeholder="Contraseña"
+        {...register("password")}
+        placeholder="Contraseña*"
         type="password"
         icon={LockIcon}
         iconPosition="left"
+        error={!!errors.password}
+        errorMessage={errors.password?.message}
       />
 
-      <Button type="submit" className="w-full bg-deepBlue text-white">
-        Registrarse
+      <Button
+        disabled={!isDirty || isPending}
+        type="submit"
+        className="w-full bg-deepBlue text-white"
+      >
+        {isPending ? (
+          <Loader2Icon className="text-white animate-spin" />
+        ) : (
+          "Registrarse"
+        )}
       </Button>
     </form>
   );

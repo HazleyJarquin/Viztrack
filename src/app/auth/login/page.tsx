@@ -3,6 +3,7 @@ import { CustomInput } from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { useLoginForm } from "@/hooks/useLoginForm";
 import { MailIcon, LockIcon, Loader2Icon } from "lucide-react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const { register, handleSubmit, onSubmit, errors, isDirty, isPending } =
@@ -45,6 +46,14 @@ export default function LoginPage() {
           "Iniciar Sesión"
         )}
       </Button>
+
+      <p className="text-muted-foreground">¿No tienes una cuenta?</p>
+      <Link
+        href="/auth/register"
+        className="text-deepBlue text-sm hover:underline cursor-pointer"
+      >
+        Registrate
+      </Link>
     </form>
   );
 }

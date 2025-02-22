@@ -1,20 +1,20 @@
-import { LoginFormInputs, loginSchema } from "@/schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useLoginUser } from "@/services/login.service";
-import { toast } from "sonner";
 
-export const useLoginForm = () => {
-  const { mutate: loginUser, isPending } = useLoginUser();
+import { toast } from "sonner";
+import { RegisterFormInputs, registerSchema } from "@/schemas/registerSchema";
+import { useRegisterUser } from "@/services/register.service";
+
+export const useRegisterUserForm = () => {
+  const { mutate: registerUser, isPending } = useRegisterUser();
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
     reset,
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormInputs>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -23,8 +23,8 @@ export const useLoginForm = () => {
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    loginUser(
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    registerUser(
       {
         email: data.email,
         password: data.password,
@@ -42,11 +42,14 @@ export const useLoginForm = () => {
             position: "top-center",
           });
         },
-        onSuccess: (data) => {
-          setCookie("authToken", data.token, {
-            maxAge: 60 * 60,
-          });
-          router.push("/dashboard");
+        onSuccess: () => {
+          toast.success(
+            "¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.",
+            {
+              position: "top-center",
+            }
+          );
+          router.push("/auth/login");
         },
       }
     );
