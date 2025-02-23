@@ -14,7 +14,7 @@ export default function DashboardLayout({
 
       <div className="w-full md:w-[85%] h-screen flex flex-col">
         <Navbar />
-        <div className="w-full px-5 flex-grow overflow-y-auto pt-2">
+        <div className="w-full px-5 pt-2 h-full overflow-y-auto">
           {children}
         </div>
       </div>

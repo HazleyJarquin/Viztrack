@@ -1,9 +1,9 @@
 import {
   ChartNoAxesColumn,
+  DollarSignIcon,
   HelpCircleIcon,
   MessageCircleMoreIcon,
   SettingsIcon,
-  ShoppingCartIcon,
   SquareChartGanttIcon,
   UserIcon,
   WalletMinimalIcon,
@@ -23,9 +23,9 @@ export const useSideBar = () => {
         },
         {
           id: 2,
-          name: "Food Order",
-          path: "/dashboard/food-order",
-          icon: <ShoppingCartIcon />,
+          name: "Ingresar Gasto o Ingreso",
+          path: "/dashboard/add-expense",
+          icon: <DollarSignIcon />,
         },
         {
           id: 3,

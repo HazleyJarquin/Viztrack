@@ -1,9 +1,11 @@
-import { IExpensesResponse } from "@/interfaces/IExpensesResponse";
+import { IExpenses } from "@/interfaces/IExpenses";
 import { BASE_URL } from "@/lib/api";
+
+type IExpensesResponseWithoutEmail = Omit<IExpenses, "user_email">;
 
 export const getExpensesByEmail = async (
   email: string
-): Promise<IExpensesResponse[]> => {
+): Promise<IExpensesResponseWithoutEmail[]> => {
   const response = await fetch(`${BASE_URL}/api/expenses/${email}`);
   return response.json();
 };

@@ -42,7 +42,7 @@ export default async function DashboardPage() {
           content="Visualiza tus gastos en tu dashboard personal."
         />
       </Head>
-      <div className="w-full h-screen flex flex-col gap-2">
+      <div className="w-full h-full flex flex-col gap-2">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
             icon={<DollarSignIcon />}
