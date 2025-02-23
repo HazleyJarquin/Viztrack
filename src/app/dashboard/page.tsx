@@ -24,8 +24,10 @@ export default async function DashboardPage() {
           content="Visualiza tus gastos en tu dashboard personal."
         />
       </Head>
-      <div className="w-full h-screen flex flex-col items-center justify-center">
-        <ExpensesGraphic chartData={expenses} />
+      <div className="w-full h-screen">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
+          <ExpensesGraphic chartData={expenses} />
+        </div>
       </div>
     </>
   );

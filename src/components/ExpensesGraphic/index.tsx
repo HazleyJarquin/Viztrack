@@ -40,6 +40,21 @@ interface Props {
 }
 
 export const ExpensesGraphic = ({ chartData }: Props) => {
+  if (!chartData || chartData.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Gastos e Ingresos - Gráfico de Barras</CardTitle>
+          <CardDescription>No hay datos disponibles.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center text-muted-foreground">
+            No hay datos suficientes para mostrar el gráfico.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
   const firstMonthData = chartData[0];
   const lastMonthData = chartData[chartData.length - 1];
 
@@ -49,8 +64,8 @@ export const ExpensesGraphic = ({ chartData }: Props) => {
   };
 
   const incomeChange = calculatePercentageChange(
-    firstMonthData.income,
-    lastMonthData.income
+    firstMonthData?.income,
+    lastMonthData?.income
   );
 
   const incomeTrend =
