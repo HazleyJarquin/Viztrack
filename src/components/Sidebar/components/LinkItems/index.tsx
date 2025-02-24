@@ -34,7 +34,7 @@ export const LinkItems = ({ link }: Props) => {
       )}
     >
       <div
-        className={clsx("group-hover:text-deepBlue flex-shrink-0", {
+        className={clsx(" flex-shrink-0", {
           "text-deepBlue": isActive,
           "text-muted-foreground": !isActive,
         })}
@@ -43,7 +43,7 @@ export const LinkItems = ({ link }: Props) => {
       </div>
 
       <p
-        className={clsx("group-hover:text-deepBlue text-sm line-clamp-1", {
+        className={clsx(" text-sm line-clamp-1", {
           "text-deepBlue": isActive,
           "text-muted-foreground": !isActive,
         })}
