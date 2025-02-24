@@ -2,9 +2,9 @@ import { supabase } from "@/supabase/supabaseClient";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { email: string } }
+  { params }: { params: Promise<{ email: string }> }
 ) => {
-  const email = params.email;
+  const email = (await params).email;
   const url = new URL(req.url);
   const month = url.searchParams.get("month");
 
