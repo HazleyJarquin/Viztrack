@@ -1,4 +1,6 @@
 import { IExpenses } from "@/interfaces/IExpenses";
+import { IFinancialData } from "@/interfaces/IFinancialData";
+import { IMonths } from "@/interfaces/IMonths";
 import { BASE_URL } from "@/lib/api";
 
 type IExpensesResponseWithoutEmail = Omit<IExpenses, "user_email">;
@@ -7,6 +9,25 @@ export const getExpensesByEmail = async (
   email: string
 ): Promise<IExpensesResponseWithoutEmail[]> => {
   const response = await fetch(`${BASE_URL}/api/expenses/${email}`);
+  return response.json();
+};
+
+export const getMonthsToChart = async (email: string): Promise<IMonths[]> => {
+  const response = await fetch(`${BASE_URL}/api/months/${email}`);
+  return response.json();
+};
+
+export const getFinancialDataByEmail = async (
+  email: string,
+  month: string
+): Promise<IFinancialData> => {
+  const url = new URL(`${BASE_URL}/api/financialdata/${email}`);
+
+  if (month) {
+    url.searchParams.append("month", month);
+  }
+
+  const response = await fetch(url.toString());
   return response.json();
 };
 

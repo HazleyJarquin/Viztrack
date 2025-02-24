@@ -4,7 +4,6 @@ import {
   HelpCircleIcon,
   MessageCircleMoreIcon,
   SettingsIcon,
-  SquareChartGanttIcon,
   UserIcon,
   WalletMinimalIcon,
 } from "lucide-react";
@@ -23,15 +22,15 @@ export const useSideBar = () => {
         },
         {
           id: 2,
-          name: "Ingresar Gasto o Ingreso",
-          path: "/dashboard/add-expense",
+          name: "Agregar Ingreso",
+          path: "/dashboard/add-income",
           icon: <DollarSignIcon />,
         },
         {
           id: 3,
-          name: "Manage Menu",
-          path: "/dashboard/manage-menu",
-          icon: <SquareChartGanttIcon />,
+          name: "Agregar Gasto",
+          path: "/dashboard/add-expense",
+          icon: <DollarSignIcon />,
         },
         {
           id: 4,

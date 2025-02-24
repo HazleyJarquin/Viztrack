@@ -17,9 +17,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { IExpenses } from "@/interfaces/IExpenses";
 
-type IExpensesWithoutEmail = Omit<IExpenses, "user_email">;
+import { IMonths } from "@/interfaces/IMonths";
 
 const chartConfig = {
   income: {
@@ -33,7 +32,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface Props {
-  chartData: IExpensesWithoutEmail[];
+  chartData: IMonths[];
 }
 
 export const ExpensesGraphic = ({ chartData }: Props) => {

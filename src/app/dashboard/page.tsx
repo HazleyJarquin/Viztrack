@@ -5,33 +5,41 @@ import { ActivityIcon, CreditCardIcon, DollarSignIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
 import {
-  getExpensesByEmail,
-  calculateVariation,
   formatNumber,
-  calculateSavingsRate,
+  getMonthsToChart,
+  getFinancialDataByEmail,
 } from "@/utils/dashboard";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
-  const expenses = email ? await getExpensesByEmail(email) : [];
 
-  const totalIncome = expenses.reduce((acc, curr) => acc + curr.income, 0);
-  const totalExpenses = expenses.reduce((acc, curr) => acc + curr.expense, 0);
+  const month = email ? await getMonthsToChart(email) : [];
 
-  const currentMonth = new Date().toLocaleString("default", { month: "long" });
-  const lastMonthIndex =
-    expenses.findIndex((e) => e.month === currentMonth) - 1;
-  const lastMonthIncome =
-    lastMonthIndex >= 0 ? expenses[lastMonthIndex].income : 0;
-  const lastMonthExpenses =
-    lastMonthIndex >= 0 ? expenses[lastMonthIndex].expense : 0;
+  const currentMonth = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+  }).format(new Date());
 
-  const incomeVariation = calculateVariation(totalIncome, lastMonthIncome);
-  const expenseVariation = calculateVariation(totalExpenses, lastMonthExpenses);
+  const previousMonth = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+  }).format(new Date(new Date().setMonth(new Date().getMonth() - 1)));
 
-  const netSavings = totalIncome - totalExpenses;
-  const savingsRate = calculateSavingsRate(totalIncome, totalExpenses);
+  const financialPreviousData =
+    email && previousMonth
+      ? await getFinancialDataByEmail(email, previousMonth)
+      : null;
+
+  const financialData =
+    email && currentMonth
+      ? await getFinancialDataByEmail(email, currentMonth)
+      : null;
+
+  const calculateVariation = (current: number, previous: number) => {
+    if (previous === 0) return 0; // Evitar división por cero
+    return ((current - previous) / previous) * 100;
+  };
 
   return (
     <>
@@ -48,38 +56,46 @@ export default async function DashboardPage() {
             icon={<DollarSignIcon />}
             title="Ingresos totales"
             symbol="$"
-            value={formatNumber(totalIncome)}
-            variation={`${incomeVariation.toFixed(1)}% del mes pasado`}
+            value={formatNumber(financialData?.totalIncome ?? 0)}
+            variation={`${calculateVariation(
+              financialData?.totalIncome ?? 0,
+              financialPreviousData?.totalIncome ?? 0
+            ).toFixed(2)}% del mes pasado`}
           />
           <StatCard
             icon={<DollarSignIcon />}
             title="Gastos totales"
             symbol="$"
-            value={formatNumber(totalExpenses)}
-            variation={`${expenseVariation.toFixed(1)}% del mes pasado`}
+            value={formatNumber(financialData?.totalExpense ?? 0)}
+            variation={`${calculateVariation(
+              financialData?.totalExpense ?? 0,
+              financialPreviousData?.totalExpense ?? 0
+            ).toFixed(2)}% del mes pasado`}
           />
           <StatCard
             icon={<CreditCardIcon />}
             title="Ahorros netos"
             symbol="$"
-            value={formatNumber(netSavings)}
-            variation={netSavings > 0 ? "Ahorro positivo" : "Ahorro negativo"}
+            value={formatNumber(financialData?.netSavings ?? 0)}
+            variation={`${calculateVariation(
+              financialData?.netSavings ?? 0,
+              financialPreviousData?.netSavings ?? 0
+            ).toFixed(2)}% del mes pasado`}
           />
           <StatCard
             icon={<ActivityIcon />}
             title="Tasa de Ahorro"
             symbol="%"
-            value={savingsRate.toFixed(1)}
-            variation={
-              savingsRate > 0
-                ? `Ahorro del ${savingsRate.toFixed(1)}%`
-                : "Sin ahorro"
-            }
+            value={(financialData?.savingsRate ?? 0).toFixed(1)}
+            variation={`${calculateVariation(
+              financialData?.savingsRate ?? 0,
+              financialPreviousData?.savingsRate ?? 0
+            ).toFixed(2)}% del mes pasado`}
           />
         </div>
 
         <div className="w-full flex flex-col md:flex-row gap-4">
-          <ExpensesGraphic chartData={expenses} />
+          <ExpensesGraphic chartData={month} />
         </div>
       </div>
     </>
