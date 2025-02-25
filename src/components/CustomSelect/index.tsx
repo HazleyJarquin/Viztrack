@@ -59,7 +59,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
           </SelectTrigger>
           <SelectContent>
             {options.map(({ label, value }) => (
-              <SelectItem key={value} value={String(value)}>
+              <SelectItem key={String(value)} value={String(value)}>
                 {label}
               </SelectItem>
             ))}

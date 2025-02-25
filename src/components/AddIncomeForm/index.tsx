@@ -33,14 +33,17 @@ export const AddIncomeForm = ({ email, months }: Props) => {
 
       <CustomSelect
         options={months}
-        value={selectedMonth}
-        onChange={(value) => setValue("month", value)}
+        value={selectedMonth || ""}
+        onChange={(value) => {
+          setValue("month", value);
+        }}
         placeholder="Selecciona un mes"
         icon={CalendarIcon}
         iconPosition="right"
         error={!!errors.month}
         errorMessage={errors.month?.message}
       />
+
       <CustomInput
         placeholder="Ingreso"
         icon={DollarSignIcon}
