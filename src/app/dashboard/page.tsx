@@ -14,32 +14,15 @@ export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
 
-  const month = email ? await getMonthsToChart(email) : [];
+  if (!email) {
+    return <p>No tienes acceso al dashboard</p>;
+  }
 
-  const currentMonth = new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-  }).format(new Date());
-
-  const previousMonth = new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-  }).format(new Date(new Date().setMonth(new Date().getMonth() - 1)));
-
-  const financialPreviousData =
-    email && previousMonth
-      ? await getFinancialDataByEmail(email, previousMonth)
-      : null;
-
-  const financialData =
-    email && currentMonth
-      ? await getFinancialDataByEmail(email, currentMonth)
-      : null;
-
-  const calculateVariation = (current: number, previous: number) => {
-    if (previous === 0) return 0; // Evitar división por cero
-    return ((current - previous) / previous) * 100;
-  };
+  const [months, financialData, financialPreviousData] = await Promise.all([
+    getMonthsToChart(email),
+    getFinancialDataByEmail(email, getFormattedDate(0)),
+    getFinancialDataByEmail(email, getFormattedDate(-1)),
+  ]);
 
   return (
     <>
@@ -95,9 +78,20 @@ export default async function DashboardPage() {
         </div>
 
         <div className="w-full flex flex-col md:flex-row gap-4">
-          <ExpensesGraphic chartData={month} />
+          <ExpensesGraphic chartData={months} />
         </div>
       </div>
     </>
   );
+}
+
+function getFormattedDate(offset: number) {
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+  }).format(new Date(new Date().setMonth(new Date().getMonth() + offset)));
+}
+
+function calculateVariation(current: number, previous: number) {
+  return previous > 0 ? ((current - previous) / previous) * 100 : 0;
 }

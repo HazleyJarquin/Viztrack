@@ -4,13 +4,26 @@ import { useAddIncomesForm } from "@/hooks/useAddIncomesForm";
 import { CustomInput } from "../CustomInput";
 import { CalendarIcon, DollarSignIcon, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
+import { CustomSelect } from "../CustomSelect";
 
 interface Props {
   email: string;
+  months: { label: string; value: string | number }[];
 }
-export const AddIncomeForm = ({ email }: Props) => {
-  const { errors, handleSubmit, isDirty, isPending, onSubmit, register } =
-    useAddIncomesForm({ email });
+
+export const AddIncomeForm = ({ email, months }: Props) => {
+  const {
+    errors,
+    handleSubmit,
+    isDirty,
+    isPending,
+    onSubmit,
+    register,
+    watch,
+    setValue,
+  } = useAddIncomesForm({ email });
+
+  const selectedMonth = watch("month");
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -18,12 +31,13 @@ export const AddIncomeForm = ({ email }: Props) => {
     >
       <h1 className="text-deepBlue text-xl font-bold">Agregar Ingreso</h1>
 
-      <CustomInput
-        placeholder="Mes"
+      <CustomSelect
+        options={months}
+        value={selectedMonth}
+        onChange={(value) => setValue("month", value)}
+        placeholder="Selecciona un mes"
         icon={CalendarIcon}
         iconPosition="right"
-        {...register("month")}
-        type="text"
         error={!!errors.month}
         errorMessage={errors.month?.message}
       />

@@ -1,6 +1,10 @@
 import { IExpenses } from "@/interfaces/IExpenses";
 import { IFinancialData } from "@/interfaces/IFinancialData";
-import { IMonths } from "@/interfaces/IMonths";
+import {
+  IAvailableMonths,
+  IMonths,
+  IMonthsCatalog,
+} from "@/interfaces/IMonths";
 import { BASE_URL } from "@/lib/api";
 
 type IExpensesResponseWithoutEmail = Omit<IExpenses, "user_email">;
@@ -45,6 +49,20 @@ export const formatNumber = (value: number): string => {
         maximumFractionDigits: 2,
       })
     : value.toLocaleString();
+};
+
+export const getMonthCatalogByEmail = async (
+  email: string
+): Promise<IMonthsCatalog[]> => {
+  const response = await fetch(`${BASE_URL}/api/months-catalog/${email}`);
+  return response.json();
+};
+
+export const getAvailableMonths = async (
+  email: string
+): Promise<IAvailableMonths> => {
+  const response = await fetch(`${BASE_URL}/api/months/available/${email}`);
+  return response.json();
 };
 
 export const calculateSavingsRate = (

@@ -2,9 +2,9 @@ import { supabase } from "@/supabase/supabaseClient";
 
 export const POST = async (req: Request) => {
   try {
-    const { month, income, expense, user_email } = await req.json();
+    const { month_id, amount, description, user_email } = await req.json();
 
-    if (!month || !income || !expense || !user_email) {
+    if (!month_id || !amount || !description || !user_email) {
       return new Response(
         JSON.stringify({ error: "All fields are required" }),
         { status: 400 }
@@ -13,9 +13,9 @@ export const POST = async (req: Request) => {
 
     const { error } = await supabase.from("expenses").insert([
       {
-        month,
-        income,
-        expense,
+        month_id,
+        amount,
+        description,
         user_email,
       },
     ]);

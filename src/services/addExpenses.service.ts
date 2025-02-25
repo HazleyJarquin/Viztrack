@@ -1,10 +1,14 @@
-import { IExpenses } from "@/interfaces/IExpenses";
 import { api } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
-type IExpensesWithoutId = Omit<IExpenses, "id">;
+interface IExpenses {
+  amount: number;
+  month_id: number;
+  description: string;
+  user_email: string;
+}
 
-const addExpenses = async (expenses: IExpensesWithoutId) => {
+const addExpenses = async (expenses: IExpenses) => {
   const { data } = await api.post("/expenses", {
     ...expenses,
   });
@@ -14,6 +18,6 @@ const addExpenses = async (expenses: IExpensesWithoutId) => {
 
 export const useAddExpenses = () => {
   return useMutation({
-    mutationFn: (expenses: IExpensesWithoutId) => addExpenses(expenses),
+    mutationFn: (expenses: IExpenses) => addExpenses(expenses),
   });
 };

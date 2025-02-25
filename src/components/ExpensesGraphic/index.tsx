@@ -82,7 +82,7 @@ export const ExpensesGraphic = ({ chartData }: Props) => {
       <CardHeader>
         <CardTitle>Gastos e Ingresos - Gráfico de Barras</CardTitle>
         <CardDescription>
-          {firstMonthData.month} - {lastMonthData.month} 2024
+          {firstMonthData.monthName} - {lastMonthData.monthName}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -90,7 +90,7 @@ export const ExpensesGraphic = ({ chartData }: Props) => {
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="monthName"
               tickLine={false}
               tickMargin={10}
               axisLine={false}

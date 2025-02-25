@@ -14,6 +14,8 @@ export const useAddIncomesForm = ({ email }: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isDirty },
     reset,
   } = useForm<IncomeFormInputs>({
@@ -65,5 +67,7 @@ export const useAddIncomesForm = ({ email }: Props) => {
     isDirty,
     reset,
     isPending,
+    watch,
+    setValue,
   };
 };

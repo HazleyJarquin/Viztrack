@@ -14,13 +14,15 @@ export const useAddExpensesForm = ({ email }: Props) => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isDirty },
     reset,
   } = useForm<ExpensesFormInputs>({
     resolver: zodResolver(expensesSchema),
     defaultValues: {
-      expense: "",
-      income: "",
+      amount: "",
+      description: "",
       month: "",
       userEmail: email || "",
     },
@@ -29,9 +31,9 @@ export const useAddExpensesForm = ({ email }: Props) => {
   const onSubmit: SubmitHandler<ExpensesFormInputs> = async (data) => {
     addExpense(
       {
-        expense: Number(data.expense),
-        income: Number(data.income),
-        month: data.month,
+        amount: Number(data.amount),
+        description: data.description,
+        month_id: Number(data.month),
         user_email: data.userEmail,
       },
       {
@@ -65,5 +67,7 @@ export const useAddExpensesForm = ({ email }: Props) => {
     isDirty,
     reset,
     isPending,
+    setValue,
+    watch,
   };
 };
