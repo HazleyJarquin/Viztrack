@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { useAddIncome } from "@/services/addIncome.service";
 import { IncomeFormInputs, incomeSchema } from "@/schemas/incomesSchema";
+import { useRouter } from "next/navigation";
 
 interface Props {
   email: string;
@@ -10,6 +11,7 @@ interface Props {
 
 export const useAddIncomesForm = ({ email }: Props) => {
   const { mutate: addIncome, isPending } = useAddIncome();
+  const router = useRouter();
 
   const {
     register,
@@ -54,6 +56,7 @@ export const useAddIncomesForm = ({ email }: Props) => {
             position: "top-center",
           });
           reset();
+          router.refresh();
         },
       }
     );

@@ -11,6 +11,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "VizTrack",
   description: "Your personal finance tracker",
+  manifest: "/manifest.json",
+  icons: {
+    apple: "/icon512.png",
+  },
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
